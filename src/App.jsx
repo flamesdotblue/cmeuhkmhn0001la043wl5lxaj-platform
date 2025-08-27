@@ -3,6 +3,7 @@ import Hero from './components/Hero'
 import GameShowcase from './components/GameShowcase'
 import Features from './components/Features'
 import Footer from './components/Footer'
+import './styles/pixel.css'
 
 function App() {
   return (

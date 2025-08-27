@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import PixelLogo from './PixelLogo'
 
 const PixelSky = () => {
   return (
@@ -11,11 +12,9 @@ const PixelSky = () => {
         </linearGradient>
       </defs>
       <rect width="800" height="420" fill="url(#grad-sky)" />
-      {/* Stars */}
       {Array.from({ length: 120 }).map((_, i) => (
         <rect key={i} x={(i * 53) % 800} y={(i * 37) % 320} width="2" height="2" fill={i % 3 === 0 ? '#9ad4ff' : '#ffffff'} opacity={0.8} />
       ))}
-      {/* Pixel moon */}
       {Array.from({ length: 10 }).map((_, r) => (
         Array.from({ length: 10 }).map((__, c) => {
           const cx = 80 + c * 6
@@ -29,7 +28,6 @@ const PixelSky = () => {
           return null
         })
       ))}
-      {/* Floating islands */}
       <g>
         <rect x="100" y="270" width="160" height="20" fill="#2f3d7a" />
         <rect x="100" y="290" width="160" height="8" fill="#1c254f" />
@@ -41,30 +39,22 @@ const PixelSky = () => {
         <rect x="540" y="210" width="30" height="20" fill="#2f3d7a" />
         <rect x="610" y="210" width="30" height="20" fill="#2f3d7a" />
       </g>
-      {/* Pixel character */}
       <g>
-        {/* body */}
         <rect x="365" y="250" width="70" height="70" fill="#32a852" />
         <rect x="380" y="265" width="40" height="40" fill="#45c46a" />
-        {/* eyes */}
         <rect x="392" y="275" width="6" height="6" fill="#111827" />
         <rect x="410" y="275" width="6" height="6" fill="#111827" />
-        {/* smile */}
         <rect x="398" y="292" width="12" height="4" fill="#111827" />
-        {/* hat */}
         <rect x="360" y="248" width="80" height="8" fill="#7c3aed" />
         <rect x="380" y="230" width="40" height="20" fill="#8b5cf6" />
-        {/* sword */}
         <rect x="440" y="250" width="10" height="40" fill="#d1d5db" />
         <rect x="438" y="288" width="14" height="6" fill="#9ca3af" />
       </g>
-      {/* Ground */}
       <g>
         <rect x="0" y="340" width="800" height="40" fill="#1f2937" />
         {Array.from({ length: 40 }).map((_, i) => (
           <rect key={i} x={i * 20} y="380" width="20" height="40" fill={i % 2 === 0 ? '#0f172a' : '#111827'} />
         ))}
-        {/* Grass */}
         {Array.from({ length: 80 }).map((_, i) => (
           <rect key={`g-${i}`} x={i * 10} y="332" width="10" height="8" fill={i % 3 === 0 ? '#34d399' : '#10b981'} />
         ))}
@@ -74,6 +64,8 @@ const PixelSky = () => {
 }
 
 const Hero = () => {
+  const [seed, setSeed] = useState(() => Math.floor(Math.random() * 1_000_000))
+
   return (
     <header className="relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.08] pointer-events-none" style={{
@@ -82,16 +74,18 @@ const Hero = () => {
       }} />
 
       <nav className="relative z-10 mx-auto max-w-6xl flex items-center justify-between px-6 pt-6">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-[#7c3aed] shadow-lg" style={{ imageRendering: 'pixelated' }} />
-          <span className="font-extrabold tracking-wide text-xl">PixelPlay Kids</span>
-        </div>
+        <button onClick={() => setSeed(Math.floor(Math.random() * 1_000_000))} className="flex items-center gap-3 group active:scale-95 transition-transform" aria-label="Shuffle logo">
+          <div className="w-9 h-9">
+            <PixelLogo seed={seed} size={36} />
+          </div>
+          <span className="font-extrabold tracking-wide text-lg pixel-font pixel-outline">PixelPlay</span>
+        </button>
         <div className="hidden sm:flex gap-6 text-sm text-white/80">
-          <a href="#games" className="hover:text-white">Games</a>
-          <a href="#features" className="hover:text-white">Features</a>
-          <a href="#join" className="hover:text-white">Join</a>
+          <a href="#games" className="hover:text-white pixel-font">Games</a>
+          <a href="#features" className="hover:text-white pixel-font">Features</a>
+          <a href="#join" className="hover:text-white pixel-font">Join</a>
         </div>
-        <a href="#join" className="px-4 py-2 rounded-md bg-[#22c55e] hover:bg-[#16a34a] transition-colors text-sm font-semibold">Play Now</a>
+        <a href="#join" className="px-4 py-2 rounded-md bg-[#22c55e] hover:bg-[#16a34a] transition-colors text-sm font-bold pixel-button pixel-font">Play Now</a>
       </nav>
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 pt-10 pb-16 lg:grid lg:grid-cols-2 lg:gap-12">
@@ -100,7 +94,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight pixel-font pixel-outline"
           >
             Adventure awaits in a world of pixel magic
           </motion.h1>
@@ -108,7 +102,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.6 }}
-            className="mt-4 text-lg text-white/80 max-w-xl"
+            className="mt-4 text-base sm:text-lg text-white/80 max-w-xl"
           >
             Safe, friendly, and fun games designed for kids. Explore cute quests, collect shiny stars, and learn along the way.
           </motion.p>
@@ -118,8 +112,8 @@ const Hero = () => {
             transition={{ delay: 0.25, duration: 0.6 }}
             className="mt-6 flex items-center gap-4"
           >
-            <a href="#games" className="px-5 py-3 rounded-md bg-[#7c3aed] hover:bg-[#6d28d9] transition-colors font-bold shadow-lg">Browse Games</a>
-            <a href="#features" className="px-5 py-3 rounded-md bg-white/10 hover:bg-white/20 transition-colors font-bold">Why PixelPlay?</a>
+            <a href="#games" className="px-5 py-3 rounded-md bg-[#7c3aed] hover:bg-[#6d28d9] transition-colors font-bold shadow-lg pixel-button pixel-font">Browse Games</a>
+            <a href="#features" className="px-5 py-3 rounded-md bg-white/10 hover:bg-white/20 transition-colors font-bold pixel-font">Why PixelPlay?</a>
           </motion.div>
         </div>
         <motion.div
